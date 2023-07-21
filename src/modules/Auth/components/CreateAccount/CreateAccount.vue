@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 
 import { useLoginCredentialsValidation } from '@/modules/Auth/use/useLoginCredentialsValidation'
 import { useAdditionalUserDataValidation } from '@/modules/Auth/use/useAdditionalUserDataValidation'
 import { useAuthStore } from '@/stores/auth'
 
-// create user  data
+// create user data
 const loginCredentials = reactive({ username: '', password: '' })
 const additionalUserData = reactive({ firstName: '', lastName: '', email: '' })
+const userData = computed(() => ({ ...loginCredentials, ...additionalUserData }))
+
 ///
 
 // validations
@@ -28,48 +30,6 @@ const {
 // auth store
 const { onCreate } = useAuthStore()
 ///
-
-// inputs config
-const formInputs = reactive([
-  {
-    id: 'user-name',
-    placeholder: 'Unique user name',
-    value: loginCredentials.username,
-    erros: usernameErrors,
-    onInput: onUsernameInput
-  },
-  {
-    id: 'password',
-    placeholder: 'Password',
-    value: loginCredentials.password,
-    erros: passwordErrors,
-    onInput: onPasswordInput
-  },
-  {
-    id: 'first-name',
-    placeholder: 'First name',
-    value: additionalUserData.firstName,
-    errors: firstNameErrors,
-    onInput: onFirstNameInput
-  },
-  {
-    id: 'last-name',
-    placeholder: 'Last name',
-    value: additionalUserData.lastName,
-    errors: lastNameErrors,
-    onInput: onLastNameInput
-  },
-  {
-    id: 'email',
-    placeholder: 'Email',
-    value: additionalUserData.email,
-    errors: emailErrors,
-    onInput: onEmailInput
-  }
-  ///
-])
-
-//
 </script>
 
 <template lang="pug">
@@ -83,17 +43,44 @@ v-card(
       @submit="onCreate"
     )
       v-text-field.my-3(
-        v-for='input in formInputs'
-        v-model="input.value"
-        :placeholder="input.placeholder"
-        :error-messages="input.errors"
-        @input="input.onInput"
+        v-model="loginCredentials.username"
+        placeholder="Unique user name"
+        :error-messages="usernameErrors"
+        @input="onUsernameInput"
+      )
+
+      v-text-field.my-3(
+        v-model="loginCredentials.password"
+        placeholder="Password"
+        :error-messages="passwordErrors"
+        @input="onPasswordInput"
+      )
+
+      v-text-field.my-3(
+        v-model="additionalUserData.email"
+        placeholder="Email"
+        :error-messages="emailErrors"
+        @input="onEmailInput"
+      )
+
+      v-text-field.my-3(
+        v-model="additionalUserData.firstName"
+        placeholder="First name"
+        :error-messages="firstNameErrors"
+        @input="onFirstNameInput"
+      )
+
+      v-text-field.my-3(
+        v-model="additionalUserData.lastName"
+        placeholder="Last name"
+        :error-messages="lastNameErrors"
+        @input="onLastNameInput"
       )
     div.d-flex.flex-1.justify-center
       v-btn(
         color="secondary"
         variant="elevated"
-        @click="onLogin"
+        @click="onCreate(userData)"
       ) Submit
   v-card-actions.py-0
     RouterLink.mx-auto.font-weight-bold(:to="{name: 'a.sing-in'}") Back to login page
