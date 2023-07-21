@@ -17,7 +17,14 @@ export const useAuthStore = defineStore('auth', () => {
   const onLogin = async (loginCredentials: LoginCredentials) => {
     const token = await getAuthToken(loginCredentials)
     window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token)
-    router.push('/suppliers')
+
+    // temporary workaround
+    // Without timeout the request to suppliers endpoint is getting called without
+    // without Authorization header as there is race condition between setting token in session
+    // storage and calling /suppliers endpoint
+    setTimeout(() => {
+      router.push('/suppliers')
+    }, 100)
   }
 
   const onLogout = () => {
