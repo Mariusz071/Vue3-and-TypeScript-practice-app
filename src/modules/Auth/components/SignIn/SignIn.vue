@@ -41,7 +41,7 @@ v-card(
     div.d-flex.flex-1.justify-center
       v-btn(
         color="secondary"
-        @click="onLogin"
+        @click="onLogin(loginCredentials)"
       ) Log in
   v-card-actions.py-0
     span.mx-auto If you don't have an account yet, please click

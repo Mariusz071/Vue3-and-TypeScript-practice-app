@@ -1,15 +1,23 @@
 import { reactive } from 'vue'
 import { defineStore } from 'pinia'
+import { router } from '@/router'
+
+import { createUser, getAuthToken } from '@/modules/Auth/api'
+import type { LoginCredentials, NewUserData } from '@/modules/Auth/types'
+
+const TOKEN_STORAGE_KEY = 'opply-auth-token'
 
 export const useAuthStore = defineStore('auth', () => {
   const user = reactive({})
 
-  const onCreate = () => {
-    console.log('on creaate user')
+  const onCreate = (userData: NewUserData) => {
+    createUser(userData)
   }
 
-  const onLogin = () => {
-    console.log('on login user')
+  const onLogin = async (loginCredentials: LoginCredentials) => {
+    const token = await getAuthToken(loginCredentials)
+    window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token)
+    router.push('/suppliers')
   }
 
   const onLogout = () => {
