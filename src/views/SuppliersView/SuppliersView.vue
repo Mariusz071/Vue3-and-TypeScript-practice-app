@@ -3,7 +3,7 @@ import EntitiesList from '@/components/EntitiesList'
 import { useRouter, useRoute } from 'vue-router'
 import { useSuppliersStore } from '@/stores/suppliers'
 
-import type { VDataTableItem, VDataTableHeader } from './types'
+import type { VDataTableHeader } from '@/components/EntitiesList/types'
 
 // routing
 const router = useRouter()
@@ -36,9 +36,9 @@ v-card(color="primary")
   v-card-text
     EntitiesList(
       v-bind="{ headers }"
-      :items="suppliersStore.suppliers"
+      :items="suppliersStore.items"
       :total-items-count="suppliersStore.count"
       item-name-redirect
-      @load-items="suppliersStore.getSuppliersAction"
+      @load-items="suppliersStore.getItemsAction"
     )
 </template>

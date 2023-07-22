@@ -42,9 +42,9 @@ v-card(color="primary")
   v-card-text
     EntitiesList(
       v-bind="{ headers }"
-      :items="quotesStore.quotes"
+      :items="quotesStore.items"
       :total-items-count="quotesStore.count"
       item-name-redirect
-      @load-items="quotesStore.getQuotesAction"
+      @load-items="quotesStore.getItemsAction"
     )
 </template>

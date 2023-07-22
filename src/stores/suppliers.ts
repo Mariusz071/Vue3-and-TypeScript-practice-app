@@ -6,18 +6,18 @@ import { useAlert } from '@/stores/alert'
 
 import type { Ref } from 'vue'
 import type { Supplier } from '@/views/SuppliersView/types'
-import type { GetSuppliersActionParams } from './types'
+import type { LoadItemsActionParams } from './types'
 
 export const useSuppliersStore = defineStore('suppliers', () => {
-  const suppliers: Ref<Supplier[]> = ref([])
+  const items: Ref<Supplier[]> = ref([])
   const count: Ref<number> = ref(0)
 
-  const getSuppliersAction = async ({ params, onLoadedCallback }: GetSuppliersActionParams) => {
+  const getItemsAction = async ({ params, onLoadedCallback }: LoadItemsActionParams) => {
     const alertsStore = useAlert()
 
     try {
       const res = await getSuppliers(params)
-      suppliers.value = res.results
+      items.value = res.results
       count.value = res.count
       onLoadedCallback()
     } catch (e: any) {
@@ -28,5 +28,5 @@ export const useSuppliersStore = defineStore('suppliers', () => {
     }
   }
 
-  return { suppliers, count, getSuppliersAction }
+  return { items, count, getItemsAction }
 })

@@ -9,15 +9,15 @@ import type { Quote } from '@/views/QuotesView/types'
 import type { LoadItemsActionParams } from './types'
 
 export const useQuotesStore = defineStore('quotes', () => {
-  const quotes: Ref<Quote[]> = ref([])
+  const items: Ref<Quote[]> = ref([])
   const count: Ref<number> = ref(0)
 
-  const getQuotesAction = async ({ params, onLoadedCallback }: LoadItemsActionParams) => {
+  const getItemsAction = async ({ params, onLoadedCallback }: LoadItemsActionParams) => {
     const alertsStore = useAlert()
 
     try {
       const res = await getQuotes(params)
-      quotes.value = res.results
+      items.value = res.results
 
       count.value = res.count
       onLoadedCallback()
@@ -29,5 +29,5 @@ export const useQuotesStore = defineStore('quotes', () => {
     }
   }
 
-  return { quotes, count, getQuotesAction }
+  return { items, count, getItemsAction }
 })
