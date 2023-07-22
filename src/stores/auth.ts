@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import { router } from '@/router'
 
 import { createUser, getAuthToken } from '@/modules/Auth/api'
+import { useAlert } from '@/stores/alert'
 import { TOKEN_STORAGE_KEY } from '@/common/constants'
 import type { LoginCredentials, NewUserData } from '@/modules/Auth/types'
 import type { Ref } from 'vue'
@@ -10,8 +11,23 @@ import type { Ref } from 'vue'
 export const useAuthStore = defineStore('auth', () => {
   const authToken: Ref<string> = ref(window.sessionStorage.getItem(TOKEN_STORAGE_KEY))
 
-  const onCreate = (userData: NewUserData) => {
-    createUser(userData)
+  const onCreate = async (userData: NewUserData) => {
+    const { show } = useAlert()
+
+    try {
+      await createUser(userData)
+
+      router.push('/')
+      show({
+        type: 'success',
+        text: 'User created successfully.'
+      })
+    } catch (e) {
+      show({
+        type: 'error',
+        text: `Failed to create user. Error: ${e.message}`
+      })
+    }
   }
 
   const onLogin = async (loginCredentials: LoginCredentials) => {
