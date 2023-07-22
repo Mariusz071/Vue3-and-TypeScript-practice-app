@@ -20,6 +20,7 @@ const { onLogin } = useAuthStore()
 v-card(
   color="primary"
   width="500px"
+  max-width="100%"
 ) 
   v-card-title Please sign in
   v-card-text.pb-0

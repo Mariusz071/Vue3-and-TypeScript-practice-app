@@ -36,6 +36,7 @@ const { onCreate } = useAuthStore()
 v-card(
   color="primary"
   width="500px"
+  max-width="100%"
 ) 
   v-card-title Create new user
   v-card-text.pb-0

@@ -1,13 +1,18 @@
 <script setup lang="ts">
 // Seems like 'vuetify/components' part of Vuetify package does NOT have VDatatable component
 // It's not mentioned in the Vuetify docs, realized that when digging in the package as couldn't get table to appear.
+//Same applies to VSkeletonLoader component.
 import { VDataTable } from 'vuetify/labs/VDataTable'
+import { VSkeletonLoader } from 'vuetify/labs/VSkeletonLoader'
 import { RouterLink } from 'vue-router'
 import { ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useDisplay } from 'vuetify'
+
 import { useSuppliersStore } from '@/stores/suppliers'
 
-import type { Supplier, VDataTableItem } from './types'
+import type { Ref } from 'vue'
+import type { Supplier, VDataTableItem, VDataTableHeader } from './types'
 
 // routing
 const router = useRouter()
@@ -15,14 +20,22 @@ const route = useRoute()
 
 // Doesnt seem like Vuetify exports types for item within VDataTable
 const getSupplierRoute = (item: VDataTableItem) => {
-  console.log({ ...item })
   return { name: 'u.supplier', params: { id: item.value } }
 }
 ///
 
+// store
+const suppliersStore = useSuppliersStore()
+///
+
+// viewport related
+const { mobile } = useDisplay()
+///
+
 // table related
-const isLoading = ref(false)
-const headers = [
+const isLoading: Ref<boolean> = ref(false)
+const isInitiallyLoaded: Ref<boolean> = ref(!!suppliersStore.suppliers.length)
+const headers: VDataTableHeader[] = [
   {
     title: 'Suplier name',
     align: 'start',
@@ -38,9 +51,12 @@ const headers = [
 ]
 ///
 
-// store
-const suppliersStore = useSuppliersStore()
-suppliersStore.getSuppliersAction(route.query)
+// initial suppliers load
+const loadSuppliersInitially = async () => {
+  await suppliersStore.getSuppliersAction(route.query)
+  isInitiallyLoaded.value = true
+}
+loadSuppliersInitially()
 ///
 
 // pagination
@@ -67,6 +83,10 @@ watch(currentPage, (val) => onPageChange(val))
 v-card(color="primary")
   v-card-title Suppliers
   v-card-text
+    v-skeleton-loader(
+      v-if="!isInitiallyLoaded",
+      type="table"
+    )
     v-data-table(
       sort-asc-icon="fas fa-chevron-up"
       sort-desc-icon="fas fa-chevron-down"
@@ -86,6 +106,7 @@ v-card(color="primary")
         .text-center.pt-2 
         v-pagination(
           v-model="currentPage"
+          :size="mobile ? 'small' : 'default'"
           :length="suppliersStore.totalPages"
         )
 </template>
