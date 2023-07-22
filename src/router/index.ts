@@ -33,16 +33,25 @@ export const router = createRouter({
       path: '/suppliers',
       children: [],
       component: () => import('@/views/SuppliersView')
+    },
+    {
+      name: 'u.supplier',
+      path: '/suppliers/:id',
+      children: [],
+      component: () => import('@/views/SupplierView')
     }
   ]
 })
 
 router.beforeEach((to, from) => {
-  if (!window.sessionStorage.getItem(TOKEN_STORAGE_KEY) && to.name !== 'a.sign-in') {
+  if (
+    !window.sessionStorage.getItem(TOKEN_STORAGE_KEY) &&
+    !['a.sign-in', 'a.create-account'].includes(to.name as string)
+  ) {
     return { name: 'a.sign-in' }
   }
 
-  if (to.name === 'a.sign-in') {
+  if (['a.sign-in', 'a.create-account'].includes(to.name as string)) {
     window.sessionStorage.removeItem(TOKEN_STORAGE_KEY)
   }
 })
