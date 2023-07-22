@@ -2,7 +2,7 @@
 // imports
 import { computed } from 'vue'
 import { useDisplay } from 'vuetify'
-// import { APP_BAR_HEIGHT } from '@/js/consts'
+import { APP_BAR_HEIGHT } from '@/common/constants'
 
 const { name } = useDisplay()
 
@@ -25,7 +25,7 @@ const containerWidth = computed(() => {
 </script>
 <template lang="pug">
 v-container(
-  :style="{ maxWidth: containerWidth, height: `calc(100vh - ${64}px)`}"
+  :style="{ maxWidth: containerWidth, height: `calc(100vh - ${APP_BAR_HEIGHT}px)`}"
 )
   slot
 </template>
