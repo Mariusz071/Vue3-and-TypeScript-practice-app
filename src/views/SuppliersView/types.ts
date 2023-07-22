@@ -1,4 +1,4 @@
-interface Supplier {
+export interface Supplier {
   id: number
   name: string
   description: string
@@ -9,4 +9,8 @@ export interface SuppliersResponse {
   next: string
   previous?: string
   results: Supplier[]
+}
+
+export interface VDataTableItem extends Object {
+  value: number
 }
