@@ -1,13 +1,20 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { computed } from 'vue'
 import { useAlert } from '@/stores/alert'
+
+// store
 const alertsStore = useAlert()
+///
+
+// -1 value means alert will be visible until closed manually
+const timeout = computed(() => (alertsStore.alertType === 'error' ? '-1' : '5000'))
 </script>
 
 <template lang="pug">
 v-snackbar(
   :model-value="alertsStore.isVisible"
-  top
-  :timeout='-1'
+  location="top"
+  v-bind="{ timeout }"
   variant="elevated"
   :color="alertsStore.alertType"
 )
