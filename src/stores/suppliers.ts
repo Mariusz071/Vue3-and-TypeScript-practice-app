@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 import { getSuppliers } from '@/views/SuppliersView/api'
@@ -9,10 +9,8 @@ import type { Supplier } from '@/views/SuppliersView/types'
 import type { GetSuppliersActionParams } from './types'
 
 export const useSuppliersStore = defineStore('suppliers', () => {
-  const itemsPerPage = 10
   const suppliers: Ref<Supplier[]> = ref([])
   const count: Ref<number> = ref(0)
-  const totalPages = computed(() => Math.ceil(count.value / itemsPerPage))
 
   const getSuppliersAction = async ({ params, onLoadedCallback }: GetSuppliersActionParams) => {
     const alertsStore = useAlert()
@@ -30,5 +28,5 @@ export const useSuppliersStore = defineStore('suppliers', () => {
     }
   }
 
-  return { suppliers, count, getSuppliersAction, totalPages }
+  return { suppliers, count, getSuppliersAction }
 })
