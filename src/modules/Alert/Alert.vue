@@ -15,7 +15,7 @@ v-snackbar(
   template(#actions)
     v-btn.border-radius-4(
       size="small"
-      icon="far fa-circle-xmark"
+      icon="fas fa-circle-xmark"
       @click="alertsStore.close"
     )
 </template>
