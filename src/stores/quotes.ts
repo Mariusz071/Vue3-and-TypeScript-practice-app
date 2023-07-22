@@ -18,8 +18,8 @@ export const useQuotesStore = defineStore('quotes', () => {
     try {
       const res = await getQuotes(params)
       items.value = res.results
-
       count.value = res.count
+
       onLoadedCallback()
     } catch (e: any) {
       alertsStore.show({

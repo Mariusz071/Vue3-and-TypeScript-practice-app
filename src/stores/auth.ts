@@ -9,7 +9,7 @@ import type { LoginCredentials, NewUserData } from '@/modules/Auth/types'
 import type { Ref } from 'vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const authToken: Ref<string> = ref(window.sessionStorage.getItem(TOKEN_STORAGE_KEY))
+  const authToken: Ref<string | null> = ref(window.sessionStorage.getItem(TOKEN_STORAGE_KEY))
 
   const onCreate = async (userData: NewUserData) => {
     const { show } = useAlert()
@@ -22,7 +22,7 @@ export const useAuthStore = defineStore('auth', () => {
         type: 'success',
         text: 'User created successfully.'
       })
-    } catch (e) {
+    } catch (e: any) {
       const message = e?.response.data.username ? e?.response.data.username.join(', ') : e.message
       show({
         type: 'error',
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore('auth', () => {
       authToken.value = token
       window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token)
       router.push('/suppliers')
-    } catch (e) {
+    } catch (e: any) {
       const message = e?.response.data.nonFieldErrors
         ? e?.response.data.nonFieldErrors.join(', ')
         : e.message

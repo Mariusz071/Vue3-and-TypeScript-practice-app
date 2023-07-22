@@ -1,4 +1,4 @@
 export interface LoadItemsActionParams {
-  params?: object
-  onLoadedCallback?: () => void
+  params: object
+  onLoadedCallback: () => void
 }

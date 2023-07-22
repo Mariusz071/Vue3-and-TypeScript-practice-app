@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactive, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { useLoginCredentialsValidation } from '@/modules/Auth/use/useLoginCredentialsValidation.ts'
+import { useLoginCredentialsValidation } from '@/modules/Auth/use/useLoginCredentialsValidation'
 import { useAuthStore } from '@/stores/auth'
 
 import type { Ref } from 'vue'

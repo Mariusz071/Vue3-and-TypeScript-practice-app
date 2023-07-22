@@ -5,6 +5,7 @@ import SignIn from '@/modules/Auth/components/SignIn'
 import { TOKEN_STORAGE_KEY } from '@/common/constants'
 
 export const router = createRouter({
+  //@ts-ignore
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {

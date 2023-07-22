@@ -8,3 +8,6 @@
 - improve UI feedback of who's currently logged in - as now looking at the API docs
   I can't see any other way of retrieving user ID than creating one unfortunately.
   User id is needed to get data from `/api/v1/users/{id}/` endpoint.
+- install only `lodash.camelcase` and `lodash.mapkeys` instead of entire lodash lib -
+  this was my initial approach but Netlify had some issues with those installed this was so changed to
+  entire lodash installation
