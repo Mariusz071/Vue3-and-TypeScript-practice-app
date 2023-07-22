@@ -27,7 +27,7 @@ loadSupplier()
 
 
 v-card(color="primary")
-  div(v-if="isLoading")
+  template(v-if="isLoading")
     v-card-title
       v-skeleton-loader(
         color="primary"
@@ -41,4 +41,6 @@ v-card(color="primary")
   template(v-else)
     v-card-title {{  supplier.name }}
     v-card-text {{  supplier.description }}
+    v-card-actions
+      v-btn(:to="{ name:'u.suppliers' }") Back
 </template>
