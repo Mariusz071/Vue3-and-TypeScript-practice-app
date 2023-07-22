@@ -41,6 +41,4 @@ v-card(color="primary")
   template(v-else)
     v-card-title {{  supplier.name }}
     v-card-text {{  supplier.description }}
-    v-card-actions
-      v-btn(:to="{ name:'u.suppliers' }") Back
 </template>

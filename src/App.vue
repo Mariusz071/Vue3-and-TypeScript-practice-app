@@ -25,8 +25,6 @@ const isOpen = ref('false')
 v-app
   v-layout
     v-app-bar(title="Opply Task")
-      template(#append)
-        | Random text
     MainNav(
       v-if="hasAuthToken"
       v-model="isOpen"

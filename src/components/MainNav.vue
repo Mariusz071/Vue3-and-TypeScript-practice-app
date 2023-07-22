@@ -42,10 +42,10 @@ const navItems = computed(() => [
     icon: 'fas fa-truck-field',
     label: 'Suppliers',
     path: '/suppliers',
-    isActive: route.name === 'u.suppliers'
+    isActive: route.path.startsWith('/suppliers')
   },
   {
-    icon: 'fas fa-quote-left',
+    icon: 'fas fa-clipboard',
     label: 'Quotes',
     path: '/quotes',
     isActive: route.name === 'u.quotes'

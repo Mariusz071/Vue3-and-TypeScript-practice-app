@@ -1,7 +1,7 @@
 import axios from '@/services/axios'
-import type { LoginCredentials, NewUserData, TokenResponse } from './types'
+import type { LoginCredentials, NewUserData } from './types'
 
-export const createUser = async (userData: NewUserData) => {
+export const createUser = async (userData: NewUserData): Promise<NewUserData> => {
   const res = await axios({
     url: '/api/v1/users/',
     method: 'post',

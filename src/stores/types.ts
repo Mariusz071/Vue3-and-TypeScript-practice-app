@@ -1,4 +1,4 @@
-export interface GetSuppliersActionParams {
+export interface LoadItemsActionParams {
   params?: object
   onLoadedCallback?: () => void
 }

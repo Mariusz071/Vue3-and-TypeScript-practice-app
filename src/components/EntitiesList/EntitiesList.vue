@@ -94,10 +94,6 @@ const isInitiallyLoaded: Ref<boolean> = ref(false)
 const formatDate = (rawDate) => {
   const dateFormat = 'yyyy-MM-dd HH:mm:ss'
   const dateObj = new Date(rawDate)
-
-  // const formattedDate = format(dateObj, dateFormat)
-
-  // console.log(formattedDate)
   const result = format(dateObj, dateFormat)
   return result
 }
@@ -122,7 +118,7 @@ v-data-table(
   :loading="isLoading"
 )
   template(#item.name="{ item }")
-    RouterLink.supplier-link(:to="getItemRoute(item)")
+    RouterLink(:to="getItemRoute(item)")
       | {{ item.columns.name }}
   template(#item.created="{ item }")
       | {{ formatDate(item.columns.created) }}
@@ -138,10 +134,6 @@ v-data-table(
 <style scoped lang="scss">
 :deep(.v-data-table-header__content .v-icon) {
   margin-left: 4px;
-}
-
-.supplier-link:hover {
-  background: none;
 }
 
 .v-data-table {

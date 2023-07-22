@@ -66,5 +66,4 @@ v-card(
     span.mx-auto If you don't have an account yet, please click
       RouterLink.mx-1.font-weight-bold(:to="{name: 'a.create-account'}") here
       | to create one.
-
 </template>
