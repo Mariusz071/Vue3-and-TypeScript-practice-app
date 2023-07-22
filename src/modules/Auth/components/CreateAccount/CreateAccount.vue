@@ -17,7 +17,7 @@ const userData = computed(() => ({ ...loginCredentials, ...additionalUserData })
 ///
 
 // validations
-const { usernameErrors, passwordErrors, onUsernameInput, onPasswordInput } =
+const { usernameErrors, passwordErrors, onUsernameInput, onPasswordInput, isFormInvalid } =
   useLoginCredentialsValidation(loginCredentials)
 
 const {
@@ -65,6 +65,7 @@ v-card(
       v-text-field.my-3(
         v-model="loginCredentials.password"
         placeholder="Password"
+        type="password"
         :error-messages="passwordErrors"
         :loading="isLoading"
         @input="onPasswordInput"
@@ -98,6 +99,7 @@ v-card(
         color="secondary"
         variant="elevated"
         :loading="isLoading"
+        :disabled="isFormInvalid"
         @click="onCreateUser(userData)"
       ) Submit
   v-card-actions.py-0

@@ -23,18 +23,32 @@ export const useAuthStore = defineStore('auth', () => {
         text: 'User created successfully.'
       })
     } catch (e) {
+      const message = e?.response.data.username ? e?.response.data.username.join(', ') : e.message
       show({
         type: 'error',
-        text: `Failed to create user. Error: ${e.message}`
+        text: `Failed to create user. Error(s): ${message}`
       })
     }
   }
 
   const onLogin = async (loginCredentials: LoginCredentials) => {
-    const token = await getAuthToken(loginCredentials)
-    authToken.value = token
-    window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token)
-    router.push('/suppliers')
+    const { show } = useAlert()
+
+    try {
+      const token = await getAuthToken(loginCredentials)
+      authToken.value = token
+      window.sessionStorage.setItem(TOKEN_STORAGE_KEY, token)
+      router.push('/suppliers')
+    } catch (e) {
+      const message = e?.response.data.nonFieldErrors
+        ? e?.response.data.nonFieldErrors.join(', ')
+        : e.message
+
+      show({
+        type: 'error',
+        text: `Failed to log in. Error(s): ${message}`
+      })
+    }
   }
 
   const onLogout = () => {

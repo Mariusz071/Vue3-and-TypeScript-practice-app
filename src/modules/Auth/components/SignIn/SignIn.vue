@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useLoginCredentialsValidation } from '@/modules/Auth/use/useLoginCredentialsValidation.ts'
 import { useAuthStore } from '@/stores/auth'
@@ -12,7 +12,7 @@ const loginCredentials = reactive({ username: '', password: '' })
 ///
 
 // validation
-const { usernameErrors, passwordErrors, onUsernameInput, onPasswordInput } =
+const { usernameErrors, passwordErrors, onUsernameInput, onPasswordInput, isFormInvalid } =
   useLoginCredentialsValidation(loginCredentials)
 
 // auth store
@@ -21,7 +21,6 @@ const { onLogin } = useAuthStore()
 
 // signing in
 const isLoading: Ref<boolean> = ref(false)
-
 const signIn = async (loginCredentials: LoginCredentials) => {
   isLoading.value = true
   await onLogin(loginCredentials)
@@ -50,6 +49,7 @@ v-card(
       )
       v-text-field(
         placeholder="Password"
+        type="password"
         v-model="loginCredentials.password"
         :error-messages="passwordErrors"
         :loading="isLoading"
@@ -59,6 +59,7 @@ v-card(
       v-btn(
         color="secondary"
         :loading="isLoading"
+        :disabled="isFormInvalid"
         @click="signIn(loginCredentials)"
       ) Log in
   v-card-actions.py-0

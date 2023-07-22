@@ -15,19 +15,27 @@ export const useLoginCredentialsValidation = (loginCredentials: LoginCredentials
     password: { required, maxLength: maxLength(128) }
   }))
 
-  const v$ = useVuelidate(rules, loginCredentials)
-
+  const $v = useVuelidate(rules, loginCredentials)
   const usernameErrors = computed(() => {
-    return v$.value.username.$errors.map((item) => item.$message)
+    return $v.value.username.$errors.map((item) => item.$message)
   })
   const passwordErrors = computed(() => {
-    return v$.value.password.$errors.map((item) => item.$message)
+    return $v.value.password.$errors.map((item) => item.$message)
   })
 
+  const isFormInvalid = computed(
+    () =>
+      !!usernameErrors.value.length ||
+      !!passwordErrors.value.length ||
+      !loginCredentials.username ||
+      !loginCredentials.password
+  )
+
   return {
+    isFormInvalid,
     usernameErrors,
     passwordErrors,
-    onUsernameInput: v$.value.username.$touch,
-    onPasswordInput: v$.value.password.$touch
+    onUsernameInput: $v.value.username.$touch,
+    onPasswordInput: $v.value.password.$touch
   }
 }
