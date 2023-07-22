@@ -11,3 +11,5 @@
 - install only `lodash.camelcase` and `lodash.mapkeys` instead of entire lodash lib -
   this was my initial approach but Netlify had some issues with those installed this was so changed to
   entire lodash installation
+
+Netlify deploy can be found [here](https://64bc1810aae2e70008353391--dazzling-dolphin-fb72e5.netlify.app/).
