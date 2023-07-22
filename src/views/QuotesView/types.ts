@@ -7,7 +7,7 @@ export interface Quote {
 }
 
 export interface QuotesResponse {
-  count: string
+  count: number
   next: string
   previous: string
   results: Quote[]

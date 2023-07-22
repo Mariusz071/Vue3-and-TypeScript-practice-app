@@ -2,6 +2,8 @@
 import { ref, computed, watch } from 'vue'
 import { useRouter, useRoute, RouterLink } from 'vue-router'
 import { useDisplay } from 'vuetify'
+import { format } from 'date-fns'
+// import { utcToZonedTime } from 'date-fns-tz'
 
 // Seems like 'vuetify/components' part of Vuetify package does NOT have VDatatable component
 // It's not mentioned in the Vuetify docs, realized that when digging in the package as couldn't get table to appear.
@@ -81,11 +83,24 @@ const loadItemsInitially = async () => {
   })
 }
 loadItemsInitially()
+///
 
 // UI related
 const isLoading: Ref<boolean> = ref(false)
 const isInitiallyLoaded: Ref<boolean> = ref(false)
+///
 
+// data formatting
+const formatDate = (rawDate) => {
+  const dateFormat = 'yyyy-MM-dd HH:mm:ss'
+  const dateObj = new Date(rawDate)
+
+  // const formattedDate = format(dateObj, dateFormat)
+
+  // console.log(formattedDate)
+  const result = format(dateObj, dateFormat)
+  return result
+}
 ///
 </script>
 
@@ -109,6 +124,8 @@ v-data-table(
   template(#item.name="{ item }")
     RouterLink.supplier-link(:to="getItemRoute(item)")
       | {{ item.columns.name }}
+  template(#item.created="{ item }")
+      | {{ formatDate(item.columns.created) }}
   template(#bottom)
     .text-center.pt-2 
     v-pagination(
