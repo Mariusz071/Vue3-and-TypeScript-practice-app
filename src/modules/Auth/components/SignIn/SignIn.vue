@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useLoginCredentialsValidation } from '@/modules/Auth/use/useLoginCredentialsValidation.ts'
 import { useAuthStore } from '@/stores/auth'
+
+import type { Ref } from 'vue'
+import type { LoginCredentials } from '@/modules/Auth/types'
 
 // logging in data
 const loginCredentials = reactive({ username: '', password: '' })
@@ -14,6 +17,17 @@ const { usernameErrors, passwordErrors, onUsernameInput, onPasswordInput } =
 
 // auth store
 const { onLogin } = useAuthStore()
+///
+
+// signing in
+const isLoading: Ref<boolean> = ref(false)
+
+const signIn = async (loginCredentials: LoginCredentials) => {
+  isLoading.value = true
+  await onLogin(loginCredentials)
+  isLoading.value = false
+}
+///
 </script>
 
 <template lang="pug">
@@ -31,18 +45,21 @@ v-card(
         placeholder="User name"
         v-model="loginCredentials.username"
         :error-messages="usernameErrors"
+        :loading="isLoading"
         @input="onUsernameInput"
       )
       v-text-field(
         placeholder="Password"
         v-model="loginCredentials.password"
         :error-messages="passwordErrors"
+        :loading="isLoading"
         @input="onPasswordInput"
       )
     div.d-flex.flex-1.justify-center
       v-btn(
         color="secondary"
-        @click="onLogin(loginCredentials)"
+        :loading="isLoading"
+        @click="signIn(loginCredentials)"
       ) Log in
   v-card-actions.py-0
     span.mx-auto If you don't have an account yet, please click
