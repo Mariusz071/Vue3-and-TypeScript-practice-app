@@ -39,6 +39,12 @@ export const router = createRouter({
       path: '/suppliers/:id',
       children: [],
       component: () => import('@/views/SupplierView')
+    },
+    {
+      name: 'u.quotes',
+      path: '/quotes',
+      children: [],
+      component: () => import('@/views/QuotesView')
     }
   ]
 })
