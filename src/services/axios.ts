@@ -1,11 +1,9 @@
 import axios from 'axios'
 import { router } from '@/router'
-
 import mapKeys from 'lodash.mapkeys'
 import camelCase from 'lodash.camelCase'
 
-const TOKEN_STORAGE_KEY = 'opply-auth-token'
-const API_URL = 'https://february-21.herokuapp.com'
+import { TOKEN_STORAGE_KEY, API_URL } from '@/common/constants'
 
 const saveAuthTokenLocally = (token: string) => {
   try {
@@ -39,24 +37,17 @@ const instance = axios.create({
       const transformedData = mapKeys(parsedData, (_, key: string) => camelCase(key))
       return transformedData
     }
-  ],
-  ...(getAuthToken() && {
-    headers: {
-      common: {
-        Authorization: `Token ${getAuthToken()}`
-      }
-    }
-  })
+  ]
 })
 
-instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      router.push('/')
-    }
-    return Promise.reject(error)
+instance.interceptors.request.use((config) => {
+  const token = getAuthToken()
+
+  if (token) {
+    config.headers['Authorization'] = `Token ${token}`
   }
-)
+
+  return config
+})
 
 export default instance
